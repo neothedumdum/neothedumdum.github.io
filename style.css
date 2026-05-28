@@ -1,0 +1,41 @@
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: monospace;
+    max-width: 650px;
+    margin: 40px auto;
+    padding: 20px;
+    line-height: 1.6;
+}
+h2 {
+    color: #ffffff;
+    border-bottom: 1px solid #333;
+    padding-bottom: 5px;
+    }
+ul {
+    list-style-type: square;
+}
+.small-text {
+    font-size: 0.8em;
+    color: #888;
+}
+.top-bar {
+  background-color: #222;
+  padding: 15px 30px;
+}
+
+.top-bar nav {
+  display: flex;
+  gap: 20px;
+}
+
+.top-bar a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+#unavailable {
+  color: #737373;
+  pointer-events: none;
+}
