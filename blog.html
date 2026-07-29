@@ -34,7 +34,7 @@
                 }
                 container.innerHTML = posts.map(p => `
                     <article class="post-entry">
-                        <h2><a href="post.html?slug=${encodeURIComponent(p.slug)}">${p.title}</a></h2>
+                        <h2><a href="blog/post.html?slug=${encodeURIComponent(p.slug)}">${p.title}</a></h2>
                         <p class="small-text">${p.date}${p.tags ? ' &middot; ' + p.tags.join(', ') : ''}</p>
                         ${p.excerpt ? `<p>${p.excerpt}</p>` : ''}
                     </article>
