@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+</head>
+<body>
+    <header class="top-bar">
+        <nav>
+            <a href="index.html">About Me</a>
+            <a href="projects.html">Projects</a>
+            <a href="#" id="unavailable">Blog</a>
+        </nav>
+    </header>
+
+    <h1>Blog</h1>
+    <p class="small-text">posts i wrote. newest first.</p>
+
+    <div id="post-list"><p class="small-text">loading...</p></div>
+
+    <script>
+        // load the manifest, sort by date desc, render the list
+        fetch('posts/manifest.json')
+            .then(r => r.ok ? r.json() : [])
+            .then(posts => {
+                posts.sort((a, b) => b.date.localeCompare(a.date));
+                const container = document.getElementById('post-list');
+                if (!posts.length) {
+                    container.innerHTML = '<p class="small-text">no posts yet.</p>';
+                    return;
+                }
+                container.innerHTML = posts.map(p => `
+                    <article class="post-entry">
+                        <h2><a href="post.html?slug=${encodeURIComponent(p.slug)}">${p.title}</a></h2>
+                        <p class="small-text">${p.date}${p.tags ? ' &middot; ' + p.tags.join(', ') : ''}</p>
+                        ${p.excerpt ? `<p>${p.excerpt}</p>` : ''}
+                    </article>
+                `).join('');
+            })
+            .catch(err => {
+                document.getElementById('post-list').innerHTML =
+                    '<p class="small-text">could not load posts: ' + err.message + '</p>';
+            });
+    </script>
+</body>
+</html>

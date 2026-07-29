@@ -39,3 +39,29 @@ ul {
   color: #737373;
   pointer-events: none;
 }
+.post-entry {
+  border-bottom: 1px solid #333;
+  padding: 12px 0;
+}
+.post-entry:last-child {
+  border-bottom: none;
+}
+.post-entry h2 {
+  margin-bottom: 4px;
+  border-bottom: none;
+}
+.post-body img {
+  max-width: 100%;
+  border-radius: 4px;
+}
+.post-body pre {
+  background: #1a1a1a;
+  padding: 12px;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+.post-body code {
+  background: #1a1a1a;
+  padding: 2px 4px;
+  border-radius: 3px;
+}

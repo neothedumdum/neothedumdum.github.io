@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+</head>
+<body>
+    <header class="top-bar">
+        <nav>
+            <a href="../index.html">About Me</a>
+            <a href="../projects.html">Projects</a>
+            <a href="../blog.html">Blog</a>
+        </nav>
+    </header>
+
+    <div id="post"><p class="small-text">loading...</p></div>
+
+    <p><a href="../blog.html">&larr; back to all posts</a></p>
+
+    <!-- marked.js for markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        // get ?slug=... from the url
+        const params = new URLSearchParams(location.search);
+        const slug = params.get('slug');
+        const out = document.getElementById('post');
+
+        if (!slug) {
+            out.innerHTML = '<p class="small-text">no post specified.</p>';
+        } else {
+            // look up the post in the manifest, then fetch its markdown
+            fetch('../posts/manifest.json')
+                .then(r => r.ok ? r.json() : [])
+                .then(posts => {
+                    const meta = posts.find(p => p.slug === slug);
+                    if (!meta) throw new Error('post not found in manifest');
+                    return fetch('../posts/' + slug + '.md')
+                        .then(r => {
+                            if (!r.ok) throw new Error('markdown file missing');
+                            return r.text().then(md => ({ meta, md }));
+                        });
+                })
+                .then(({ meta, md }) => {
+                    document.title = meta.title;
+                    out.innerHTML = `
+                        <h1>${meta.title}</h1>
+                        <p class="small-text">${meta.date}${meta.tags ? ' &middot; ' + meta.tags.join(', ') : ''}</p>
+                        <div class="post-body">${marked.parse(md)}</div>
+                    `;
+                })
+                .catch(err => {
+                    out.innerHTML = '<p class="small-text">error: ' + err.message + '</p>';
+                });
+        }
+    </script>
+</body>
+</html>
