@@ -1,0 +1,4 @@
+# python tool scratch (e.g. editor backups, venvs, __pycache__)
+__pycache__/
+*.pyc
+.venv/
